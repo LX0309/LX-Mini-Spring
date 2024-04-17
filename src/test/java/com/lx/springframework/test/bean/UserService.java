@@ -4,6 +4,10 @@ public class UserService {
 
     private String name;
 
+    private String uId;
+
+    private UserDao userDao;
+
     public UserService() {
     }
 
@@ -13,6 +17,9 @@ public class UserService {
 
     public void queryUserInfo() {
         System.out.println("查询用户信息：" + name);
+    }
+    public void queryUserInfoDao() {
+        System.out.println("查询用户信息：" + userDao.queryUserName(uId));
     }
 
     @Override
