@@ -1,15 +1,24 @@
 package com.lx.springframework.test;
 
 
+import cn.hutool.core.io.IoUtil;
 import com.lx.springframework.beans.PropertyValue;
 import com.lx.springframework.beans.PropertyValues;
 import com.lx.springframework.beans.factory.config.BeanDefinition;
 import com.lx.springframework.beans.factory.config.BeanReference;
 import com.lx.springframework.beans.factory.support.DefaultListableBeanFactory;
+import com.lx.springframework.beans.factory.xml.XmlBeanDefinitionReader;
+import com.lx.springframework.core.io.DefaultResourceLoader;
+import com.lx.springframework.core.io.Resource;
 import com.lx.springframework.test.bean.UserDao;
 import com.lx.springframework.test.bean.UserService;
 
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.io.IOException;
+import java.io.InputStream;
 
 public class ApiTest {
 
@@ -74,8 +83,74 @@ public class ApiTest {
 
         // 5. UserService 获取bean
         UserService userService = (UserService) beanFactory.getBean("userService");
-        userService.queryUserInfoDao();
+        String result = userService.queryUserInfoDao();
+        System.out.println("测试结果：" + result);
     }
 
+    /**
+     * 资源加载测试
+     */
+    private DefaultResourceLoader resourceLoader;
 
+    /**
+     * //@BeforeEach JUnit 5测试前初始化方法
+     */
+    @BeforeEach
+    public void init() {
+        resourceLoader = new DefaultResourceLoader();
+    }
+
+    /**
+     *名称访问配置文件
+     * @throws IOException
+     */
+    @Test
+    public void test_classpath() throws IOException {
+        Resource resource = resourceLoader.getResource("classpath:important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String content = IoUtil.readUtf8(inputStream);
+        System.out.println(content);
+    }
+
+    /**
+     * 全路径仿配置文件
+     * @throws IOException
+     */
+    @Test
+    public void test_file() throws IOException {
+        Resource resource = resourceLoader.getResource("src/test/resources/important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String content = IoUtil.readUtf8(inputStream);
+        System.out.println(content);
+    }
+
+    /**
+     * 阿里云远程访问配置文件
+     * @throws IOException
+     */
+    @Test
+    public void test_url() throws IOException {
+        Resource resource = resourceLoader.getResource("https://lx-web-talis.oss-cn-guangzhou.aliyuncs.com/important.properties");
+        InputStream inputStream = resource.getInputStream();
+        String content = IoUtil.readUtf8(inputStream);
+        System.out.println(content);
+    }
+
+    /**
+     * 读取配置文件&注册Bean
+     */
+    @Test
+    public void test_xml() {
+        // 1.初始化 BeanFactory
+        DefaultListableBeanFactory beanFactory = new DefaultListableBeanFactory();
+
+        // 2. 读取配置文件&注册Bean
+        XmlBeanDefinitionReader reader = new XmlBeanDefinitionReader(beanFactory);
+        reader.loadBeanDefinitions("src/test/resources/spring.xml");
+
+        // 3. 获取Bean对象调用方法
+        UserService userService = beanFactory.getBean("userService", UserService.class);
+        String result = userService.queryUserInfoDao();
+        System.out.println("测试结果：" + result);
+    }
 }

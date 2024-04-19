@@ -22,5 +22,6 @@ public interface BeanFactory {
      * @throws BeansException 自定义异常
      */
     Object getBean(String name, Object... args) throws BeansException;
+    <T> T getBean(String name, Class<T> requiredType) throws BeansException;
 
 }
