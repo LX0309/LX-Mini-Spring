@@ -1,12 +1,23 @@
 package com.lx.springframework.test.bean;
 
-import com.lx.springframework.beans.factory.DisposableBean;
-import com.lx.springframework.beans.factory.InitializingBean;
+import com.lx.springframework.beans.BeansException;
+import com.lx.springframework.beans.factory.*;
+import com.lx.springframework.context.ApplicationContext;
 
-public class UserService implements InitializingBean, DisposableBean {
+public class UserService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
 
     private String name;
 
+    public ApplicationContext getApplicationContext() {
+        return applicationContext;
+    }
+
+    public BeanFactory getBeanFactory() {
+        return beanFactory;
+    }
+
+    private ApplicationContext applicationContext;
+    private BeanFactory beanFactory;
     private String uId;
     private String company;
 
@@ -77,6 +88,25 @@ public class UserService implements InitializingBean, DisposableBean {
         this.userDao = userDao;
     }
 
+    @Override
+    public void setBeanFactory(BeanFactory beanFactory) throws BeansException {
+        this.beanFactory = beanFactory;
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext = applicationContext;
+    }
+
+    @Override
+    public void setBeanName(String name) {
+        System.out.println("Bean Name is：" + name);
+    }
+
+    @Override
+    public void setBeanClassLoader(ClassLoader classLoader) {
+        System.out.println("ClassLoader：" + classLoader);
+    }
     @Override
     public void afterPropertiesSet() throws Exception {
         System.out.println("执行：UserService.afterPropertiesSet");
