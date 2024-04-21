@@ -1,6 +1,9 @@
 package com.lx.springframework.test.bean;
 
-public class UserService {
+import com.lx.springframework.beans.factory.DisposableBean;
+import com.lx.springframework.beans.factory.InitializingBean;
+
+public class UserService implements InitializingBean, DisposableBean {
 
     private String name;
 
@@ -72,5 +75,15 @@ public class UserService {
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("执行：UserService.afterPropertiesSet");
+    }
+
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("执行：UserService.destroy");
     }
 }
