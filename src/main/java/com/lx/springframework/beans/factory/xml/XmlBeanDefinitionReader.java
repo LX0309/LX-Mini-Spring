@@ -44,6 +44,12 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
             loadBeanDefinitions(resource);
         }
     }
+    @Override
+    public void loadBeanDefinitions(String... locations) throws BeansException {
+        for (String location : locations) {
+            loadBeanDefinitions(location);
+        }
+    }
 
     @Override
     public void loadBeanDefinitions(String location) throws BeansException {

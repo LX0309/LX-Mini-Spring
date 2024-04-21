@@ -5,7 +5,13 @@
 
     <bean id="userService" class="com.lx.springframework.test.bean.UserService">
         <property name="uId" value="0309"/>
+        <property name="company" value="腾讯"/>
+        <property name="location" value="深圳"/>
         <property name="userDao" ref="userDao"/>
     </bean>
+
+    <bean class="com.lx.springframework.test.common.MyBeanPostProcessor"/>
+    <bean class="com.lx.springframework.test.common.MyBeanFactoryPostProcessor"/>
+
 
 </beans>
