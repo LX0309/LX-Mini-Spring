@@ -4,6 +4,7 @@ import com.lx.springframework.aop.AdvisedSupport;
 import com.lx.springframework.aop.TargetSource;
 import com.lx.springframework.aop.aspectj.AspectJExpressionPointcut;
 import com.lx.springframework.aop.framework.JdkDynamicAopProxy;
+import com.lx.springframework.context.support.ClassPathXmlApplicationContext;
 import com.lx.springframework.test.aopBean.IUserService;
 import com.lx.springframework.test.aopBean.UserService;
 import com.lx.springframework.test.aopBean.UserServiceInterceptor;
@@ -14,6 +15,7 @@ import java.lang.reflect.Proxy;
 
 public class AopApiTest {
 
+    private AdvisedSupport advisedSupport;
     /**
      * 验证拦截的方法与对应的对象是否匹配
      * @throws NoSuchMethodException
@@ -46,5 +48,13 @@ public class AopApiTest {
         // 测试调用
         System.out.println("测试结果：" + proxy_jdk.register("花花"));
     }
+
+    @Test
+    public void test_aop_xml() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springAop.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
+    }
+
 
 }
