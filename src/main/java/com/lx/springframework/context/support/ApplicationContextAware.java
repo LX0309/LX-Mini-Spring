@@ -1,10 +1,10 @@
-package com.lx.springframework.beans.factory;
+package com.lx.springframework.context.support;
 
 import com.lx.springframework.beans.BeansException;
+import com.lx.springframework.beans.factory.Aware;
 import com.lx.springframework.context.ApplicationContext;
 
 /**
- * 实现此接口，既能感知到所属的 ApplicationContext
  */
 public interface ApplicationContextAware extends Aware {
 

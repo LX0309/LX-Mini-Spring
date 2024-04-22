@@ -3,6 +3,7 @@ package com.lx.springframework.test.bean;
 import com.lx.springframework.beans.BeansException;
 import com.lx.springframework.beans.factory.*;
 import com.lx.springframework.context.ApplicationContext;
+import com.lx.springframework.context.support.ApplicationContextAware;
 
 public class UserService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
 
@@ -20,6 +21,15 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
     private BeanFactory beanFactory;
     private String uId;
     private String company;
+    private IUserDao IuserDao;
+
+    public IUserDao getIuserDao() {
+        return IuserDao;
+    }
+
+    public void setIuserDao(IUserDao iuserDao) {
+        IuserDao = iuserDao;
+    }
 
     public String getCompany() {
         return company;
@@ -54,8 +64,12 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
     public String queryUserInfoDao() {
         return "查询用户信息：" + userDao.queryUserName(uId);
     }
+
     public String queryUserInfo1() {
         return userDao.queryUserName(uId)+", 公司："+company+", 地点"+location;
+    }
+    public String queryIUserInfo() {
+        return IuserDao.queryUserName(uId)+", 公司："+company+", 地点"+location;
     }
     @Override
     public String toString() {

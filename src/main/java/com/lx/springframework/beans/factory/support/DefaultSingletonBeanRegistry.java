@@ -5,8 +5,10 @@ import com.lx.springframework.beans.factory.DisposableBean;
 import com.lx.springframework.beans.factory.config.SingletonBeanRegistry;
 
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 默认的单例 Bean 注册表实现类
@@ -14,31 +16,30 @@ import java.util.Set;
  */
 public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
 
-    // 用于存储单例对象的容器，键为 bean 名称，值为对应的单例对象
-    private Map<String, Object> singletonObjects = new HashMap<>();
 
-
-    private final Map<String, DisposableBean> disposableBeans = new HashMap<>();
     /**
-     * 根据 bean 名称获取单例对象
-     *
-     * @param beanName 要获取的单例对象的名称
-     * @return 返回与给定名称关联的单例对象，如果找不到对应的单例对象，则返回 null
+     * Internal marker for a null singleton object:
+     * used as marker value for concurrent Maps (which don't support null values).
      */
+    protected static final Object NULL_OBJECT = new Object();
+
+    private Map<String, Object> singletonObjects = new ConcurrentHashMap<>();
+
+    private final Map<String, DisposableBean> disposableBeans = new LinkedHashMap<>();
+
     @Override
     public Object getSingleton(String beanName) {
         return singletonObjects.get(beanName);
     }
 
-    /**
-     * 向单例对象容器中添加单例对象
-     *
-     * @param beanName        要添加的单例对象的名称
-     * @param singletonObject 要添加的单例对象
-     */
     protected void addSingleton(String beanName, Object singletonObject) {
         singletonObjects.put(beanName, singletonObject);
     }
+
+    public void registerDisposableBean(String beanName, DisposableBean bean) {
+        disposableBeans.put(beanName, bean);
+    }
+
     public void destroySingletons() {
         Set<String> keySet = this.disposableBeans.keySet();
         Object[] disposableBeanNames = keySet.toArray();
@@ -52,9 +53,6 @@ public class DefaultSingletonBeanRegistry implements SingletonBeanRegistry {
                 throw new BeansException("Destroy method on bean with name '" + beanName + "' threw an exception", e);
             }
         }
-    }
-    public void registerDisposableBean(String beanName, DisposableBean bean) {
-        disposableBeans.put(beanName, bean);
     }
 
 }

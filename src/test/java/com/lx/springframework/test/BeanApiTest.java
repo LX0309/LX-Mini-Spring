@@ -2,6 +2,7 @@ package com.lx.springframework.test;
 
 
 import cn.hutool.core.io.IoUtil;
+import com.lx.springframework.aop.aspectj.AspectJExpressionPointcut;
 import com.lx.springframework.beans.PropertyValue;
 import com.lx.springframework.beans.PropertyValues;
 import com.lx.springframework.beans.factory.config.BeanDefinition;
@@ -19,11 +20,13 @@ import com.lx.springframework.test.common.MyBeanFactoryPostProcessor;
 import com.lx.springframework.test.common.MyBeanPostProcessor;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.openjdk.jol.info.ClassLayout;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.reflect.Method;
 
-public class ApiTest {
+public class BeanApiTest {
 
     /**
      * 简单Bean容器测试
@@ -40,11 +43,14 @@ public class ApiTest {
         // 3.第一次获取 bean
         System.out.println(beanFactory.getBean("userService"));
         UserService userService = (UserService) beanFactory.getBean("userService");
-        userService.queryUserInfo();
+        String result = userService.queryUserInfo();
+        System.out.println(result);
 
         // 4.第二次获取 bean from Singleton
         UserService userService_singleton = (UserService) beanFactory.getSingleton("userService");
-        userService_singleton.queryUserInfo();
+        String result1 = userService_singleton.queryUserInfo();
+        System.out.println(result1);
+
     }
 
     /**
@@ -61,7 +67,9 @@ public class ApiTest {
 
         // 4.获取bean
         UserService userService = (UserService) beanFactory.getBean("userService", "遇事不决DeBug");
-        userService.queryUserInfo();
+        String result = userService.queryUserInfo();
+        System.out.println(result);
+
     }
 
     /**
@@ -77,7 +85,7 @@ public class ApiTest {
 
         // 3. UserService 设置属性[uId、userDao]
         PropertyValues propertyValues = new PropertyValues();
-        propertyValues.addPropertyValue(new PropertyValue("uId", "1141"));
+        propertyValues.addPropertyValue(new PropertyValue("uId", "0309"));
         propertyValues.addPropertyValue(new PropertyValue("userDao",new BeanReference("userDao")));
 
         // 4. UserService 注入bean
@@ -214,6 +222,9 @@ public class ApiTest {
     }
 
 
+    /**
+     *
+     */
     @Test
     public void test_xml_3() {
         // 1.初始化 BeanFactory
@@ -227,6 +238,44 @@ public class ApiTest {
         System.out.println("测试结果：" + result);
         System.out.println("ApplicationContextAware："+userService.getApplicationContext());
         System.out.println("BeanFactoryAware："+userService.getBeanFactory());
+    }
+
+    /**
+     * (单例&原型)
+     */
+    @Test
+    public void test_prototype() {
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springProxyTest.xml");
+        applicationContext.registerShutdownHook();
+
+        // 2. 获取Bean对象调用方法
+        UserService userService01 = applicationContext.getBean("userService", UserService.class);
+        UserService userService02 = applicationContext.getBean("userService", UserService.class);
+
+        // 3. 配置 scope="prototype/singleton"
+        System.out.println(userService01);
+        System.out.println(userService02);
+
+        // 4. 打印十六进制哈希
+        System.out.println(userService01 + " 十六进制哈希：" + Integer.toHexString(userService01.hashCode()));
+        System.out.println(userService02 + " 十六进制哈希：" + Integer.toHexString(userService02.hashCode()));
+        System.out.println(ClassLayout.parseInstance(userService01).toPrintable());
+
+    }
+
+    /**
+     * 代理对象
+     */
+    @Test
+    public void test_factory_bean() {
+        // 1.初始化 BeanFactory
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springProxyTest.xml");
+        applicationContext.registerShutdownHook();
+
+        // 2. 调用代理方法
+        UserService userService = applicationContext.getBean("userService", UserService.class);
+        System.out.println(userService);
     }
 
 

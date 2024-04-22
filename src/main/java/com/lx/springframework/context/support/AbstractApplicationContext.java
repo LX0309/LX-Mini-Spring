@@ -4,7 +4,6 @@ import com.lx.springframework.beans.BeansException;
 import com.lx.springframework.beans.factory.ConfigurableListableBeanFactory;
 import com.lx.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import com.lx.springframework.beans.factory.config.BeanPostProcessor;
-import com.lx.springframework.beans.factory.support.ApplicationContextAwareProcessor;
 import com.lx.springframework.context.ConfigurableApplicationContext;
 import com.lx.springframework.core.io.DefaultResourceLoader;
 
