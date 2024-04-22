@@ -11,14 +11,12 @@ import com.lx.springframework.test.aopBean.UserServiceInterceptor;
 import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Proxy;
 
 public class AopApiTest {
 
     private AdvisedSupport advisedSupport;
     /**
      * 验证拦截的方法与对应的对象是否匹配
-     * @throws NoSuchMethodException
      */
     @Test
     public void test_aop() throws NoSuchMethodException {
@@ -31,6 +29,9 @@ public class AopApiTest {
         System.out.println(pointcut.matches(method, clazz));// true
     }
 
+    /**
+     * AOP核心测试
+     */
     @Test
     public void test_dynamic() {
         // 目标对象
@@ -49,12 +50,36 @@ public class AopApiTest {
         System.out.println("测试结果：" + proxy_jdk.register("花花"));
     }
 
+    /**
+     * Spring整合AOP测试
+     */
     @Test
     public void test_aop_xml() {
         ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springAop.xml");
         IUserService userService = applicationContext.getBean("userService", IUserService.class);
         System.out.println("测试结果：" + userService.queryUserInfo());
     }
+
+    /**
+     * 占位符测试
+     */
+    @Test
+    public void test_property() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-property.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService);
+    }
+
+    /**
+     * 自定义注解
+     */
+    @Test
+    public void test_scan() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:spring-scan.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
+    }
+
 
 
 }
