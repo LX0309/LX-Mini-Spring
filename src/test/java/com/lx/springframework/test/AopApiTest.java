@@ -80,6 +80,15 @@ public class AopApiTest {
         System.out.println("测试结果：" + userService.queryUserInfo());
     }
 
+    /**
+     * 注解实现依赖注入
+     */
+    @Test
+    public void test_scan_DI() {
+        ClassPathXmlApplicationContext applicationContext = new ClassPathXmlApplicationContext("classpath:springDI.xml");
+        IUserService userService = applicationContext.getBean("userService", IUserService.class);
+        System.out.println("测试结果：" + userService.queryUserInfo());
+    }
 
 
 }
