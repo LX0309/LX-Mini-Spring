@@ -8,7 +8,13 @@ import com.lx.springframework.context.support.ApplicationContextAware;
 public class UserService implements InitializingBean, DisposableBean, BeanNameAware, BeanClassLoaderAware, ApplicationContextAware, BeanFactoryAware {
 
     private String name;
-
+    private ApplicationContext applicationContext;
+    private BeanFactory beanFactory;
+    private String uId;
+    private String company;
+    private IUserDao IuserDao;
+    private String location;
+    private UserDao userDao;
     public ApplicationContext getApplicationContext() {
         return applicationContext;
     }
@@ -16,12 +22,6 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
     public BeanFactory getBeanFactory() {
         return beanFactory;
     }
-
-    private ApplicationContext applicationContext;
-    private BeanFactory beanFactory;
-    private String uId;
-    private String company;
-    private IUserDao IuserDao;
 
     public IUserDao getIuserDao() {
         return IuserDao;
@@ -46,10 +46,6 @@ public class UserService implements InitializingBean, DisposableBean, BeanNameAw
     public void setLocation(String location) {
         this.location = location;
     }
-
-    private String location;
-
-    private UserDao userDao;
 
     public UserService() {
     }

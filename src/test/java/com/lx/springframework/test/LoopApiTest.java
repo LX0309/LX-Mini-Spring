@@ -5,6 +5,9 @@ import com.lx.springframework.test.Dependency_loopBean.Husband;
 import com.lx.springframework.test.Dependency_loopBean.Wife;
 import org.junit.Test;
 
+/**
+ * 依赖循环测试
+ */
 public class LoopApiTest {
     @Test
     public void test_circular() {

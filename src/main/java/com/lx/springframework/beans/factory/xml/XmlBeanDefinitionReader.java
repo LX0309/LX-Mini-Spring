@@ -19,16 +19,31 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+/**
+ * 实现从 XML 资源中加载 Bean 定义的策略
+ *
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
+ */
 public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
 
+    /**
+     * 构造函数，传入 BeanDefinitionRegistry 用于注册 Bean 定义。
+     */
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry) {
         super(registry);
     }
 
+    /**
+     * 构造函数，传入 BeanDefinitionRegistry 和 ResourceLoader，后者用于加载资源。
+     */
     public XmlBeanDefinitionReader(BeanDefinitionRegistry registry, ResourceLoader resourceLoader) {
         super(registry, resourceLoader);
     }
 
+    /**
+     * 从单个 XML 资源加载 Bean 定义。
+     * 如果解析过程中发生 IO 异常、类找不到异常或文档解析异常，则抛出 BeansException。
+     */
     @Override
     public void loadBeanDefinitions(Resource resource) throws BeansException {
         try {
@@ -40,6 +55,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    /**
+     * 从多个 XML 资源加载 Bean 定义。
+     */
     @Override
     public void loadBeanDefinitions(Resource... resources) throws BeansException {
         for (Resource resource : resources) {
@@ -47,6 +65,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    /**
+     * 从指定位置的 XML 资源加载 Bean 定义。
+     */
     @Override
     public void loadBeanDefinitions(String location) throws BeansException {
         ResourceLoader resourceLoader = getResourceLoader();
@@ -54,6 +75,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         loadBeanDefinitions(resource);
     }
 
+    /**
+     * 从多个指定位置的 XML 资源加载 Bean 定义。
+     */
     @Override
     public void loadBeanDefinitions(String... locations) throws BeansException {
         for (String location : locations) {
@@ -61,6 +85,10 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    /**
+     * 实际执行从输入流中加载 Bean 定义的逻辑。
+     * 使用 SAXReader 读取 XML 文档，并根据 XML 的结构解析出 Bean 定义。
+     */
     protected void doLoadBeanDefinitions(InputStream inputStream) throws ClassNotFoundException, DocumentException {
         SAXReader reader = new SAXReader();
         Document document = reader.read(inputStream);
@@ -124,6 +152,9 @@ public class XmlBeanDefinitionReader extends AbstractBeanDefinitionReader {
         }
     }
 
+    /**
+     * 扫描指定包下的所有类，以从中提取 Bean 定义。
+     */
     private void scanPackage(String scanPath) {
         String[] basePackages = StrUtil.splitToArray(scanPath, ',');
         ClassPathBeanDefinitionScanner scanner = new ClassPathBeanDefinitionScanner(getRegistry());

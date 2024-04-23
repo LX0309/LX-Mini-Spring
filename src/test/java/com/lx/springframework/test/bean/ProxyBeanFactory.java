@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProxyBeanFactory implements FactoryBean<IUserDao> {
-
     @Override
     public IUserDao getObject() throws Exception {
         InvocationHandler handler = (proxy, method, args) -> {

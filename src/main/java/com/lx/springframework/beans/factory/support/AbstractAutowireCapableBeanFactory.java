@@ -13,6 +13,8 @@ import java.lang.reflect.Method;
 
 /**
  * 实例化Bean类
+ *
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
  */
 public abstract class  AbstractAutowireCapableBeanFactory extends AbstractBeanFactory implements AutowireCapableBeanFactory {
 
@@ -72,14 +74,19 @@ public abstract class  AbstractAutowireCapableBeanFactory extends AbstractBeanFa
     }
 
     protected Object getEarlyBeanReference(String beanName, BeanDefinition beanDefinition, Object bean) {
+        // 初始时将暴露的对象设置为原始的 bean 实例
         Object exposedObject = bean;
+        // 遍历所有的 BeanPostProcessor
         for (BeanPostProcessor beanPostProcessor : getBeanPostProcessors()) {
+            // 如果当前 BeanPostProcessor 实现了 InstantiationAwareBeanPostProcessor 接口
             if (beanPostProcessor instanceof InstantiationAwareBeanPostProcessor) {
+                // 调用其 getEarlyBeanReference 方法，以获取早期引用的 bean 对象
                 exposedObject = ((InstantiationAwareBeanPostProcessor) beanPostProcessor).getEarlyBeanReference(exposedObject, beanName);
+                // 如果返回的对象为 null，则直接返回 null
                 if (null == exposedObject) return exposedObject;
             }
         }
-
+        // 返回暴露的对象
         return exposedObject;
     }
 

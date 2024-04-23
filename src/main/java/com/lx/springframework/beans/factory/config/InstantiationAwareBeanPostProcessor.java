@@ -3,57 +3,48 @@ package com.lx.springframework.beans.factory.config;
 import com.lx.springframework.beans.BeansException;
 import com.lx.springframework.beans.PropertyValues;
 
+/**
+ * 扩展了 BeanPostProcessor 接口的 InstantiationAwareBeanPostProcessor 接口。
+ * InstantiationAwareBeanPostProcessor 在 Spring 容器实例化 bean 过程中提供了更细粒度的处理点。
+ *
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
+ */
 public interface InstantiationAwareBeanPostProcessor extends BeanPostProcessor {
 
     /**
-     * Apply this BeanPostProcessor <i>before the target bean gets instantiated</i>.
-     * The returned bean object may be a proxy to use instead of the target bean,
-     * effectively suppressing default instantiation of the target bean.
-     * 在 Bean 对象执行初始化方法之前，执行此方法
-     *
-     * @param beanClass
-     * @param beanName
-     * @return
-     * @throws BeansException
+     * 在目标 bean 实例化之前执行的方法。
+     * @param beanClass 目标 bean 的类对象
+     * @param beanName 目标 bean 的名称
+     * @return 可能是目标 bean 的代理对象，用于替代目标 bean
+     * @throws BeansException 如果在处理过程中发生异常
      */
     Object postProcessBeforeInstantiation(Class<?> beanClass, String beanName) throws BeansException;
 
     /**
-     * Perform operations after the bean has been instantiated, via a constructor or factory method,
-     * but before Spring property population (from explicit properties or autowiring) occurs.
-     * <p>This is the ideal callback for performing field injection on the given bean instance.
-     * See Spring's own {@link com.lx.springframework.beans.factory.annotation.AutowiredAnnotationBeanPostProcessor}
-     * for a typical example.
-     * <p>
-     * 在 Bean 对象执行初始化方法之后，执行此方法
-     *
-     * @param bean
-     * @param beanName
-     * @return
-     * @throws BeansException
+     * 在 bean 实例化后、但在 Spring 属性填充之前执行的方法。
+     * @param bean 实例化后的 bean 对象
+     * @param beanName bean 的名称
+     * @return 是否继续处理该 bean
+     * @throws BeansException 如果在处理过程中发生异常
      */
     boolean postProcessAfterInstantiation(Object bean, String beanName) throws BeansException;
 
     /**
-     * Post-process the given property values before the factory applies them
-     * to the given bean. Allows for checking whether all dependencies have been
-     * satisfied, for example based on a "Required" annotation on bean property setters.
-     * <p>
-     * 在 Bean 对象实例化完成后，设置属性操作之前执行此方法
-     *
-     * @param pvs
-     * @param bean
-     * @param beanName
-     * @return
-     * @throws BeansException
+     * 在将属性应用于 bean 之前执行的方法。
+     * @param pvs 要应用的属性值
+     * @param bean 实例化后的 bean 对象
+     * @param beanName bean 的名称
+     * @return 用于应用于 bean 的属性值
+     * @throws BeansException 如果在处理过程中发生异常
      */
     PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException;
 
     /**
-     * 在 Spring 中由 SmartInstantiationAwareBeanPostProcessor#getEarlyBeanReference 提供
-     * @param bean
-     * @param beanName
-     * @return
+     * 获取早期的 bean 引用的默认方法。
+     * 默认情况下返回原始的 bean 对象。
+     * @param bean 实例化后的 bean 对象
+     * @param beanName bean 的名称
+     * @return 早期的 bean 引用
      */
     default Object getEarlyBeanReference(Object bean, String beanName) {
         return bean;

@@ -12,20 +12,11 @@ import com.lx.springframework.utils.ClassUtils;
 
 import java.lang.reflect.Field;
 
+
 /**
- * {@link com.lx.springframework.beans.factory.config.BeanPostProcessor} implementation
- * that autowires annotated fields, setter methods and arbitrary config methods.
- * Such members to be injected are detected through a Java 5 annotation: by default,
- * Spring's {@link Autowired @Autowired} and {@link Value @Value} annotations.
- * <p>
- * 处理 @Value、@Autowired，注解的 BeanPostProcessor
- * <p>
+ * 自定义的 Bean 后置处理器，用于处理 @Autowired 和 @Value 注解。
  *
- *
- *
- *
- *
- * 作者：DerekYRC https://github.com/DerekYRC/mini-spring
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
  */
 public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareBeanPostProcessor, BeanFactoryAware {
 
@@ -38,7 +29,7 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
 
     @Override
     public PropertyValues postProcessPropertyValues(PropertyValues pvs, Object bean, String beanName) throws BeansException {
-        // 1. 处理注解 @Value
+        // 处理 @Value 注解
         Class<?> clazz = bean.getClass();
         clazz = ClassUtils.isCglibProxyClass(clazz) ? clazz.getSuperclass() : clazz;
 
@@ -53,7 +44,7 @@ public class AutowiredAnnotationBeanPostProcessor implements InstantiationAwareB
             }
         }
 
-        // 2. 处理注解 @Autowired
+        // 处理 @Autowired 注解
         for (Field field : declaredFields) {
             Autowired autowiredAnnotation = field.getAnnotation(Autowired.class);
             if (null != autowiredAnnotation) {

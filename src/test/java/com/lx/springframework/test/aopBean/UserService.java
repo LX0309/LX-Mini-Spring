@@ -24,7 +24,7 @@ public class UserService implements IUserService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return userDao.queryUserName("10001") + "，" + token;
+        return userDao.queryUserName("0309") + "，" + token;
     }
 
     public String queryUserInfo() {
@@ -33,7 +33,7 @@ public class UserService implements IUserService {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return "小傅哥，100001，深圳";
+        return "遇事不决Debug，0309，广州";
     }
 
     public String register(String userName) {

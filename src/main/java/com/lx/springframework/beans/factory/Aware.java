@@ -1,16 +1,13 @@
 package com.lx.springframework.beans.factory;
 
 /**
- * Marker superinterface indicating that a bean is eligible to be
- * notified by the Spring container of a particular framework object
- * through a callback-style method.  Actual method signature is
- * determined by individual subinterfaces, but should typically
- * consist of just one void-returning method that accepts a single
- * argument.
+ * 标记接口，指示一个 Bean 有资格被 Spring 容器通过回调方法通知。
+ * 回调方法的实际签名由各个子接口决定，但通常应该只包含一个单一参数的无返回值方法。
+ * 这些子接口允许 Bean 在容器中感知或与特定的框架对象交互，例如 ApplicationContext、BeanFactory 等。
  *
- * 标记类接口，实现该接口可以被Spring容器感知
- *
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
  */
 public interface Aware {
+    // 接口本身不声明任何方法，它作为其他 Aware 相关接口的父接口。
 }
 

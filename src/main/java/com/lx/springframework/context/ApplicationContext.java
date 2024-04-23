@@ -3,10 +3,10 @@ package com.lx.springframework.context;
 import com.lx.springframework.beans.factory.ListableBeanFactory;
 
 /**
- * context 是本次实现应用上下文功能新增的服务包
- * ApplicationContext，继承于 ListableBeanFactory，也就继承了关于 BeanFactory 方法，
- * 比如一些 getBean 的方法。另外 ApplicationContext 本身是 Central 接口，
- * 但目前还不需要添加一些获取ID和父类上下文，所以暂时没有接口方法的定义。
+ * ApplicationContext 接口代表了 Spring 应用程序上下文，它继承自 ListableBeanFactory 接口，
+ * 提供了访问应用程序组件的功能，包括 Bean 的获取、依赖注入、生命周期管理等。
+ *
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
  */
 public interface ApplicationContext extends ListableBeanFactory {
 

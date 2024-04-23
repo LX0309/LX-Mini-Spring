@@ -26,6 +26,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Method;
 
+/**
+ * Bean相关测试
+ */
 public class BeanApiTest {
 
     /**

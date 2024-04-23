@@ -9,8 +9,22 @@ import com.lx.springframework.core.io.DefaultResourceLoader;
 
 import java.util.Map;
 
+/**
+ * 提供应用上下文的生命周期管理，包括初始化、刷新、获取 Bean、关闭等操作
+ *
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
+ */
 public abstract class AbstractApplicationContext extends DefaultResourceLoader implements ConfigurableApplicationContext {
 
+    /**
+     * 刷新容器，准备 BeanFactory，并触发 BeanFactoryPostProcessor、BeanPostProcessor 等的执行。
+     * 1. 创建 BeanFactory 并加载 BeanDefinition。
+     * 2. 获取 BeanFactory 引用。
+     * 3. 添加 ApplicationContextAwareProcessor。
+     * 4. 执行 BeanFactoryPostProcessor。
+     * 5. 注册 BeanPostProcessor。
+     * 6. 预实例化单例 Bean。
+     */
     @Override
     public void refresh() throws BeansException {
         // 1. 创建 BeanFactory，并加载 BeanDefinition
@@ -32,10 +46,19 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         beanFactory.preInstantiateSingletons();
     }
 
+    /**
+     * 抽象方法，用于刷新 BeanFactory，由子类实现。
+     */
     protected abstract void refreshBeanFactory() throws BeansException;
 
+    /**
+     * 抽象方法，用于获取 ConfigurableListableBeanFactory，由子类实现。
+     */
     protected abstract ConfigurableListableBeanFactory getBeanFactory();
 
+    /**
+     * 调用所有 BeanFactoryPostProcessor。
+     */
     private void invokeBeanFactoryPostProcessors(ConfigurableListableBeanFactory beanFactory) {
         Map<String, BeanFactoryPostProcessor> beanFactoryPostProcessorMap = beanFactory.getBeansOfType(BeanFactoryPostProcessor.class);
         for (BeanFactoryPostProcessor beanFactoryPostProcessor : beanFactoryPostProcessorMap.values()) {
@@ -43,6 +66,9 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
         }
     }
 
+    /**
+     * 注册所有的 BeanPostProcessor。
+     */
     private void registerBeanPostProcessors(ConfigurableListableBeanFactory beanFactory) {
         Map<String, BeanPostProcessor> beanPostProcessorMap = beanFactory.getBeansOfType(BeanPostProcessor.class);
         for (BeanPostProcessor beanPostProcessor : beanPostProcessorMap.values()) {
@@ -51,6 +77,7 @@ public abstract class AbstractApplicationContext extends DefaultResourceLoader i
     }
 
 
+    // 以下是 ConfigurableApplicationContext 接口的方法实现，它们委托给 BeanFactory 执行。
     @Override
     public <T> Map<String, T> getBeansOfType(Class<T> type) throws BeansException {
         return getBeanFactory().getBeansOfType(type);

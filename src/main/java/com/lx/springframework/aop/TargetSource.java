@@ -1,46 +1,39 @@
 package com.lx.springframework.aop;
 
 /**
- * A <code>TargetSource</code> is used to obtain the current "target" of
- * an AOP invocation, which will be invoked via reflection if no around
- * advice chooses to end the interceptor chain itself.
- * <p>
- * 被代理的目标对象
- * <p>
+ * 目标源类，用于提供目标对象和目标类型信息。
  *
- *
- *
- *
- *
- * 作者：DerekYRC https://github.com/DerekYRC/mini-spring
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
  */
 public class TargetSource {
 
     private final Object target;
 
+    /**
+     * 构造函数，初始化目标对象。
+     *
+     * @param target 目标对象
+     */
     public TargetSource(Object target) {
         this.target = target;
     }
 
     /**
-     * Return the type of targets returned by this {@link TargetSource}.
-     * <p>Can return <code>null</code>, although certain usages of a
-     * <code>TargetSource</code> might just work with a predetermined
-     * target class.
-     * @return the type of targets returned by this {@link TargetSource}
+     * 可能返回null，尽管某些情况下可以预先确定目标类。
+     *
+     * @return 此 {@link TargetSource} 返回的目标对象的类型
      */
-    public Class<?>[] getTargetClass(){
+    public Class<?>[] getTargetClass() {
         return this.target.getClass().getInterfaces();
     }
 
     /**
-     * Return a target instance. Invoked immediately before the
-     * AOP framework calls the "target" of an AOP method invocation.
-     * @return the target object, which contains the joinpoint
-     * @throws Exception if the target object can't be resolved
+     * 返回目标实例。在 AOP 框架调用 AOP 方法调用的目标之前立即调用此方法。
+     *
+     * @return 包含连接点的目标对象
      */
-    public Object getTarget(){
+    public Object getTarget() {
         return this.target;
     }
-    
+
 }

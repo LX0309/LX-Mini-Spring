@@ -11,9 +11,9 @@ public class UserDao {
     private static Map<String, String> hashMap = new HashMap<>();
 
     static {
-        hashMap.put("10001", "小傅哥，北京，亦庄");
-        hashMap.put("10002", "八杯水，上海，尖沙咀");
-        hashMap.put("10003", "阿毛，天津，东丽区");
+        hashMap.put("0309", "遇事不决Debug");
+        hashMap.put("1141", "以无止之神");
+        hashMap.put("7625", "行有止之境");
     }
 
     public String queryUserName(String uId) {

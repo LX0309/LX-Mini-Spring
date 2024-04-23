@@ -1,50 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 定义 Maven 项目的 POM 文件，使用 XML 格式 -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+    <!-- 定义 Maven 项目的元数据 -->
+    <modelVersion>4.0.0</modelVersion> <!-- 模型版本 -->
 
-    <groupId>com.lx</groupId>
-    <artifactId>LX-Mini-Spring</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>com.lx</groupId> <!-- 项目的组ID -->
+    <artifactId>LX-Mini-Spring</artifactId> <!-- 项目的唯一标识符 -->
+    <version>1.0-SNAPSHOT</version> <!-- 项目的版本 -->
 
+    <!-- 定义项目的属性 -->
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source> <!-- 编译器的源版本 -->
+        <maven.compiler.target>17</maven.compiler.target> <!-- 编译器的目标版本 -->
     </properties>
+
+    <!-- 定义项目的依赖关系 -->
     <dependencies>
+        <!-- JUnit Jupiter 测试框架的依赖 -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter-engine</artifactId>
             <version>5.5.2</version>
-            <scope>test</scope>
+            <scope>test</scope> <!-- 仅在测试范围内使用 -->
         </dependency>
+
+        <!-- Hutool 工具库的依赖 -->
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>5.5.0</version>
         </dependency>
+
+        <!-- JUnit 4 测试框架的依赖 -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- JOL（Java Object Layout）的依赖 -->
         <dependency>
             <groupId>org.openjdk.jol</groupId>
             <artifactId>jol-cli</artifactId>
             <version>0.14</version>
         </dependency>
+
+        <!-- AspectJ 切面编程的依赖 -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
             <version>1.9.7</version>
         </dependency>
+
+        <!-- AOP Alliance 的依赖 -->
         <dependency>
             <groupId>aopalliance</groupId>
             <artifactId>aopalliance</artifactId>
             <version>1.0</version>
         </dependency>
+
+        <!-- DOM4J XML 解析库的依赖 -->
         <dependency>
             <groupId>org.dom4j</groupId>
             <artifactId>dom4j</artifactId>

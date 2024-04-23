@@ -3,16 +3,9 @@ package com.lx.springframework.beans.factory.annotation;
 import java.lang.annotation.*;
 
 /**
- * This annotation may be used on a field or parameter as a qualifier for
- * candidate beans when autowiring. It may also be used to annotate other
- * custom annotations that can then in turn be used as qualifiers.
- * <p>
+ * 限定符注解，用于为自动装配提供限定符。
  *
- *
- *
- *
- *
- * 作者：DerekYRC https://github.com/DerekYRC/mini-spring
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
  */
 @Target({ElementType.FIELD, ElementType.METHOD, ElementType.PARAMETER, ElementType.TYPE, ElementType.ANNOTATION_TYPE})
 @Retention(RetentionPolicy.RUNTIME)
@@ -20,6 +13,11 @@ import java.lang.annotation.*;
 @Documented
 public @interface Qualifier {
 
+    /**
+     * 限定符值，用于指定自动装配时的限定条件。
+     *
+     * @return 限定符值
+     */
     String value() default "";
 
 }

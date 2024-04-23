@@ -7,6 +7,9 @@ public class UserDao {
 
     private static Map<String, String> hashMap = new HashMap<>();
 
+    /**
+     * 简单功能测试测试需要
+     */
 //    static {
 //        hashMap.put("0309", "遇事不决Debug");
 //        hashMap.put("1141", "以无止之神");

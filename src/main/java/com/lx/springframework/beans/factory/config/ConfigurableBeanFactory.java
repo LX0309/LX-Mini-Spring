@@ -4,34 +4,44 @@ import com.lx.springframework.beans.factory.HierarchicalBeanFactory;
 import com.lx.springframework.utils.StringValueResolver;
 
 /**
- * Configuration interface to be implemented by most bean factories. Provides
- * facilities to configure a bean factory, in addition to the bean factory
- * client methods in the {@link com.lx.springframework.beans.factory.HierarchicalBeanFactory}
- * interface.
+ * ConfigurableBeanFactory 接口扩展了 HierarchicalBeanFactory 和 SingletonBeanRegistry 接口，提供了对 Bean 工厂进行配置的能力。
+ * 允许添加 BeanPostProcessor 以及销毁单例对象等功能。
+ *
+ * 作者：遇事不决DuBug   https://github.com/LX0309/LX-Mini-Spring
  */
 public interface ConfigurableBeanFactory extends HierarchicalBeanFactory, SingletonBeanRegistry {
 
+    /** 单例作用域 */
     String SCOPE_SINGLETON = "singleton";
 
+    /** 原型作用域 */
     String SCOPE_PROTOTYPE = "prototype";
 
+    /**
+     * 向 Bean 工厂添加 BeanPostProcessor。
+     *
+     * @param beanPostProcessor 要添加的 BeanPostProcessor
+     */
     void addBeanPostProcessor(BeanPostProcessor beanPostProcessor);
 
     /**
-     * 销毁单例对象
+     * 销毁所有单例对象。
      */
     void destroySingletons();
+
     /**
-     * Add a String resolver for embedded values such as annotation attributes.
-     * @param valueResolver the String resolver to apply to embedded values
+     * 添加一个用于解析嵌入值（例如注解属性）的字符串解析器。
+     *
+     * @param valueResolver 要应用于嵌入值的字符串解析器
      * @since 3.0
      */
     void addEmbeddedValueResolver(StringValueResolver valueResolver);
 
     /**
-     * Resolve the given embedded value, e.g. an annotation attribute.
-     * @param value the value to resolve
-     * @return the resolved value (may be the original value as-is)
+     * 解析给定的嵌入值，例如注解属性。
+     *
+     * @param value 要解析的值
+     * @return 解析后的值（可能是原始值）
      * @since 3.0
      */
     String resolveEmbeddedValue(String value);

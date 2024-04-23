@@ -1,7 +1,6 @@
 package com.lx.springframework.test.Dependency_loopBean;
 
 public class Wife {
-
     private Husband husband;
     private IMother mother; // 婆婆
 
